@@ -30,11 +30,9 @@ It's very close to being there, but realistically the implementation is menial a
 
 There are some existing bugs and issues that also should be addressed:
     -> Currently (Action.h) we are storing actions (lists of pixel locations) on the stack.  This is incorrect. 
-        -> The problem with this is that y doing it, when the vector resizes (further actions) it forces memory reallocations.  This means that if you have arbitrarily large actions (e.g a screen fill)
-            ... it takes a while to process, because it moves the memory around.  This can cause lag in large action banks.
+        -> The problem with this is that y doing it, when the vector resizes (further actions) it forces memory reallocations.  This means that if you have arbitrarily large actions (e.g a screen fill) it takes a while to process, because it moves the memory around.  This can cause lag in large action banks.
             
-    -> Additionally to last point, there is a lack of compression in almost all elements of the code.  This is inefficient.  Reducing actions / canvas's down to their minimum number of mathematical operations to construct them
-        ... would save time and memory.  For instance, a filled screen with a single dot in the centre could reasonably be represented by some set of operations that is cheaper to store in memory.
+    -> Additionally to last point, there is a lack of compression in almost all elements of the code.  This is inefficient.  Reducing actions / canvas's down to their minimum number of mathematical operations to construct them would save time and memory.  For instance, a filled screen with a single dot in the centre could reasonably be represented by some set of operations that is cheaper to store in memory.
 
     -> Object handling was very much "hacked in", in the sense that I was largely just messing with it before I decided to stop working on it (to implement this refactor).
         -> This means that there are some weird behaviours - e.g editing a selected object can be very buggy as the means of which I track what becomes the new object does not take into account existing object size.
@@ -42,9 +40,7 @@ There are some existing bugs and issues that also should be addressed:
 
     -> Finally, the CLI is by design inherently unsafe.  Just worth pointing out.
 
-I was proud of what I accomplished with this project, and am grateful for the cool stuff that I learnt along the way.  I think that it has taught me a great deal about how to build an application
-    ...in terms of having to deal with derived arbitrary complexity.  It also forced me to relearn C++ in a way in which I am certain I would otherwise not have pursued - having now dealt with the derived state nightmare that is OOP
-    ...I cannot see myself building anything using an OOP approach ever again.
+I was proud of what I accomplished with this project, and am grateful for the cool stuff that I learnt along the way.  I think that it has taught me a great deal about how to build an application in terms of having to deal with derived arbitrary complexity.  It also forced me to relearn C++ in a way in which I am certain I would otherwise not have pursued - having now dealt with the derived state nightmare that is OOP I cannot see myself building anything using an OOP approach ever again.
 
 Cheers,
 
