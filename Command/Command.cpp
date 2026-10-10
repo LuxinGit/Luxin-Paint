@@ -196,3 +196,44 @@ bool Command::Validator::genericValidator(const argument& arg, const argmd& amd)
     return std::ranges::find(amd.constraints, arg) != amd.constraints.end();
 
 }
+
+namespace Command::Executor
+{
+    // Structure of cmd:
+    // For a given command,
+    //  retrieve its definition
+    //  use its interpreter to generate a new set of commands
+    //  if the definition in the new set is equal to our original continue // this command is fully interpreted
+    //  else recurse on this
+    
+
+    void executeCommands(Application_State& s, std::vector<Command::cmd>& cs)
+    {
+        for (auto& c : cs)
+        {
+            if (c.definition->valdtr)
+                if (!c.definition->valdtr(s, c))
+                    continue;
+
+            if (c.definition->interp)
+            {
+                auto ncs = c.definition->interp(s, c);
+
+                if (ncs.size() == 1 &&
+                    ncs[0].definition == c.definition)
+                {
+                    c = std::move(ncs[0]);
+                }
+                else
+                {
+                    executeCommands(s, ncs);
+                    continue;
+                }
+            }
+
+            if (c.definition->prcssr)
+                c.definition->prcssr(s, c);
+        }
+    }
+
+}
